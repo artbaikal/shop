@@ -68,7 +68,7 @@ namespace shop.Services
 
         public bool Edit(int mode, Department dep, IRepository<Employee> EmployeeRepository, IUserDialog UserDialog)
         {
-            //public EditDepartmentViewModel(int mode, Department dep, IRepository<Employee> EmployeeRepository, IUserDialog UserDialog)
+            
             var view_model = new EditDepartmentViewModel(mode, dep, EmployeeRepository, UserDialog);
             var view = new EditDepartmenWindow
             {
@@ -103,6 +103,26 @@ namespace shop.Services
 
             return view.ShowDialog() ?? false;
             
+        }
+
+        //int mode, Order order, IRepository<Employee> EmployeeRepository, IUserDialog UserDialog
+        public bool Edit(int mode, Order order, IRepository<Employee> EmployeeRepository, IUserDialog UserDialog)
+        {
+
+            var view_model = new EditOrdersViewModel(mode, order, EmployeeRepository, UserDialog);
+            var view = new EditOrdersWindow
+            {
+                DataContext = view_model,
+                Owner = App.CurrentWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+            view_model.Complete += (_, p) =>
+            {
+                view.DialogResult = p.Argument;
+                view.Close();
+            };
+
+            return view.ShowDialog() ?? false;
         }
     }
 }

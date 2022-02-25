@@ -87,6 +87,30 @@ namespace shop.ViewModels
 
         #endregion
 
+        #region Command ShowOrdersViewCommand - Отобразить представление подразделений
+
+        /// <summary>Отобразить представление книг</summary>
+        private ICommand _ShowOrdersViewCommand;
+
+        /// <summary>Отобразить представление книг</summary>
+        public ICommand ShowOrdersViewCommand => _ShowOrdersViewCommand
+            ??= new LambdaCommand(OnShowOrdersViewCommandExecuted, CanShowOrdersViewCommandExecute);
+
+        /// <summary>Проверка возможности выполнения - Отобразить представление книг</summary>
+        private bool CanShowOrdersViewCommandExecute() => true;
+
+        /// <summary>Логика выполнения - Отобразить представление книг</summary>
+        private void OnShowOrdersViewCommandExecuted()
+        {
+            if (CurrentModel is OrdersViewModel)
+            {
+                return;
+            }
+            CurrentModel = new OrdersViewModel(_EmployeeRepository, _OrderRepository,_UserDialog);
+        }
+
+        #endregion
+
         public MainWindowViewModel(IRepository<Employee> EmployeeRepository,
             IRepository<Department> DepartmentRepository,
             IRepository<Order> OrderRepository,

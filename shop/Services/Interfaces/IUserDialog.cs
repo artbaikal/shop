@@ -11,6 +11,9 @@ namespace shop.Services.Interfaces
         bool Edit(Employee empl);
         
         bool Edit(int mode, Department dep, IRepository<Employee> EmployeeRepository, IUserDialog UserDialog);
+
+        bool Edit(int mode, Order order, IRepository<Employee> EmployeeRepository, IUserDialog UserDialog);
+
         bool Edit(int mode, Employee empl, IUserDialog UserDialog);
 
         bool Edit(Employee[] emlp, Employee[] selectedEmpl ) ;
