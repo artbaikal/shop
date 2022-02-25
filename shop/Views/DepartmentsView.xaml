@@ -31,11 +31,11 @@
                             <!--<Setter Property="Padding" Value="25,5"/>-->
                         </Style>
                     </UniformGrid.Resources>
-                    <Button Content="+"/>
-                    <Button Content="E"/>
-                    <Button Content="-"/>
+                    <Button Content="+" Command="{Binding DepartmentAddCommand}"/>
+                    <Button Content="E" Command="{Binding DepartmentEditCommand}" />
+                    <Button Content="-" Command="{Binding DepartmentDeleteCommand}" />
                 </UniformGrid>
-                <ListBox ItemsSource="{Binding Departments}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDepartment}">
+                <ListBox ItemsSource="{Binding Departments}"  SelectedItem="{Binding SelectedDepartment}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding NewDepartmentSelectedCommand}"/>
@@ -67,6 +67,7 @@
                 <GroupBox Header="Сотрудники">
                     <DataGrid ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}">
                         <DataGrid.Columns>
+                            <DataGridTextColumn MinWidth="100" Width="*" Header="Id" Binding="{Binding Id}"/>
                             <DataGridTextColumn MinWidth="100" Width="*" Header="Фамилия" Binding="{Binding Surname}"/>
                             <DataGridTextColumn MinWidth="100" Width="*" Header="Имя" Binding="{Binding Name}"/>
                             <DataGridTextColumn MinWidth="100" Width="*" Header="Отчество" Binding="{Binding Patronymic}"/>

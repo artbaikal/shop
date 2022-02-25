@@ -8,7 +8,7 @@ namespace DBAcess.Entityes
         public int Number { get; set; }
         public string Product { get; set; }
         
-        public int EmployeeID { get; set; }
+        public int? EmployeeID { get; set; }
         public Employee Employee { get; set; }
     }
 }

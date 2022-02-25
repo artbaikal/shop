@@ -41,7 +41,15 @@ namespace shop.Services
 
         public bool Edit(Department dep)
         {
-            var view_model = new AddEmpToDepartmentViewModel(dep);
+            return false;
+
+
+        }
+
+        public bool Edit(Employee[] emlp,Employee[] selectedEmpl)
+        {
+            
+            var view_model = new AddEmpToDepartmentViewModel(emlp,selectedEmpl);
             var view = new AddEmpToDepartment
             {
                 DataContext = view_model,
@@ -55,7 +63,6 @@ namespace shop.Services
             };
 
             return view.ShowDialog() ?? false;
-
         }
     }
 }

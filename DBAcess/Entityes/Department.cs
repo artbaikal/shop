@@ -16,7 +16,7 @@ namespace DBAcess.Entityes
 
         public Employee Head { get; set; }
 
-
+        public override string ToString() => $"{Name} (id={Id})";
     }
 
 

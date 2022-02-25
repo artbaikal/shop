@@ -11,6 +11,7 @@ using System.Windows.Input;
 using MathCore.WPF.Commands;
 using Microsoft.EntityFrameworkCore;
 using shop.Services.Interfaces;
+using System.Windows;
 
 namespace shop.ViewModels
 {
@@ -90,13 +91,26 @@ namespace shop.ViewModels
         /// <summary>Логика выполнения - Удаление сотрудника</summary>
         private void OnRemoveEmployeeCommandExecuted(object p)
         {
-            var dep = SelectedDepartment;
-            dep.Employees.Remove((Employee)p);
-            
-            Employees.Remove(SelectedEmployee);
 
-            //SelectedDepartment = null;
-            //SelectedDepartment = dep;
+            string messageBoxText = "Удалить выбранную запись сотрудника? ";
+            string caption = "Удаленее сотрудника";
+            MessageBoxButton button = MessageBoxButton.YesNo;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult result;
+
+            result = MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.Yes);
+
+            if (result == MessageBoxResult.Yes)
+            {
+
+                _EmployeeRepository.Remove(SelectedEmployee.Id);
+                Employees.Remove(SelectedEmployee);
+                
+                SelectedEmployee = null;
+            }
+
+
+            
         }
 
         #endregion
@@ -117,42 +131,121 @@ namespace shop.ViewModels
         /// <summary>Логика выполнения - Удаление сотрудника</summary>
         private void OnNewDepartmentSelectedCommandExecuted(object p)
         {
-            Employees = new ObservableCollection<Employee>(SelectedDepartment.Employees);
+            if (SelectedDepartment != null)
+            {
+                Employees = new ObservableCollection<Employee>(SelectedDepartment.Employees);
+            }
+            else
+            {
+                Employees = null;
+            }
 
 
         }
 
         #endregion
 
+
+        #region Command DepartmentDelete
+
+        /// <summary>Удаление сотрудника</summary>
+        private ICommand _DepartmentDeleteCommand;
+
+        /// <summary>Удаление сотрудника</summary>
+        public ICommand DepartmentDeleteCommand => _DepartmentDeleteCommand
+            ??= new LambdaCommand(OnDepartmentDeleteCommandExecuted, CanDepartmentDeleteCommandExecute);
+
+        /// <summary>Проверка возможности выполнения - Удаление сотрудника</summary>
+        private bool CanDepartmentDeleteCommandExecute(object p) => SelectedDepartment != null;
+
+
+        /// <summary>Логика выполнения - Удаление сотрудника</summary>
+        private void OnDepartmentDeleteCommandExecuted(object p)
+        {
+            string messageBoxText = "Удалить выбранное подразделение? ";
+            string caption = "Удаленее подразделения";
+            MessageBoxButton button = MessageBoxButton.YesNo;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult result;
+
+            result = MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.Yes);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                var index = Departments.IndexOf(SelectedDepartment);
+
+                _DepartmentsRepo.Remove(SelectedDepartment.Id);
+                Departments.Remove(SelectedDepartment);
+
+                int tmp = 0;
+
+                try
+                {
+                    if (index < Departments.Count)
+                        tmp = index;
+                    else
+                    {
+                        tmp = index - 1;
+                    }
+                    SelectedDepartment = Departments[tmp];
+                }
+                catch
+                {
+                    if (Departments?.Count > 0)
+                    {
+                        SelectedDepartment = Departments[0];
+                    }
+                    else
+                    {
+                        SelectedDepartment = null;
+                    }
+
+                }
+            }
+
+            
+
+        }
+
+        #endregion
+
+
         #region Command AddEmployeeCommand 
-        
+
         private ICommand _AddEmployeeCommand;
 
         
         public ICommand AddEmployeeCommand => _AddEmployeeCommand
             ??= new LambdaCommand(OnAddEmployeeCommandExecuted, CanAddEmployeeCommandExecute);
 
-        
-        private bool CanAddEmployeeCommandExecute(object p) => true;
 
+        private bool CanAddEmployeeCommandExecute(object p) => SelectedDepartment != null;
+        
         
         private void OnAddEmployeeCommandExecuted(object p)
         {
 
             var depart = (Department)p;
-            
-            //var allEmplsWithEmptyDepartment=_DepartmentsRepo.Items.Where(x=>x.Employees)
-            if (_UserDialog.Edit(depart))
+
+            var allEmplsWithEmptyDepartment = _EmployeeRepository.Items.Where(x => x.Department == null).ToArray();
+            var selectedEmpl = new Employee[1];
+            if (_UserDialog.Edit(allEmplsWithEmptyDepartment, selectedEmpl))
             {
+
                 // Сохранить employee в БД
+                SelectedDepartment.Employees.Add(selectedEmpl[0]);
+                _DepartmentsRepo.Update(SelectedDepartment);
+
+                Employees.Add(selectedEmpl[0]);
                 // Обновить состояние интерфейса
-                Employees = new ObservableCollection<Employee>(SelectedDepartment.Employees);
-                SelectedEmployee = null;
+                //Employees = new ObservableCollection<Employee>(SelectedDepartment.Employees);
+                //SelectedEmployee = null;
 
             }
             else
             {
                 // Ничего не делаем
+                int gg = 1;
             }
 
         }
