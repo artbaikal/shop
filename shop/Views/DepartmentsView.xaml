@@ -31,9 +31,9 @@
                             <!--<Setter Property="Padding" Value="25,5"/>-->
                         </Style>
                     </UniformGrid.Resources>
-                    <Button Content="+" Command="{Binding DepartmentAddCommand}"/>
-                    <Button Content="E" Command="{Binding DepartmentEditCommand}" />
-                    <Button Content="-" Command="{Binding DepartmentDeleteCommand}" />
+                    <Button Content="Add" Command="{Binding DepartmentAddCommand}"/>
+                    <Button Content="Edit" Command="{Binding DepartmentEditCommand}" />
+                    <Button Content="Del" Command="{Binding DepartmentDeleteCommand}" />
                 </UniformGrid>
                 <ListBox ItemsSource="{Binding Departments}"  SelectedItem="{Binding SelectedDepartment}">
                     <i:Interaction.Triggers>

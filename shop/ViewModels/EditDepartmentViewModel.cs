@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace shop.ViewModels
@@ -103,14 +104,18 @@ namespace shop.ViewModels
             ??= new LambdaCommand(OnCommitCommandExecuted, CanCommitCommandExecute);
 
 
-        private bool CanCommitCommandExecute(object p) => true;
+        private bool CanCommitCommandExecute(object p)  =>   true;
 
 
         private void OnCommitCommandExecuted(object p)
         {
             
 
-
+            if(Department.Name==null|| Department.Name?.Trim().Length<3)
+            {
+                MessageBox.Show("Длина наименования должна быть больше 3 символов");
+                return; 
+            }
             Complete?.Invoke(this, true);
         }
 
@@ -147,7 +152,7 @@ namespace shop.ViewModels
                 _Title = "Добавление нового подразделения";
             }
             _HeadEmpl = dep?.Head;
-            _HeadEmplName = _HeadEmpl.ToString();
+            _HeadEmplName = _HeadEmpl?.ToString();
         }
         public EditDepartmentViewModel()
         {

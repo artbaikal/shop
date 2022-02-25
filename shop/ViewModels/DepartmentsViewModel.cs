@@ -26,7 +26,7 @@ namespace shop.ViewModels
         private ObservableCollection<Department> _Departments;
         public ObservableCollection<Department> Departments { get => _Departments; set => Set(ref _Departments, value); }
         
-        private ObservableCollection<Employee> _Employees;
+        private ObservableCollection<Employee> _Employees=new();
         public ObservableCollection<Employee> Employees { get => _Employees; set => Set(ref _Employees, value); }
 
 
@@ -92,8 +92,8 @@ namespace shop.ViewModels
         private void OnRemoveEmployeeCommandExecuted(object p)
         {
 
-            string messageBoxText = "Удалить выбранную запись сотрудника? ";
-            string caption = "Удаленее сотрудника";
+            string messageBoxText = "Удалить выбранную запись сотрудника из подразделения? ";
+            string caption = "Удаленее сотрудника из подразделения";
             MessageBoxButton button = MessageBoxButton.YesNo;
             MessageBoxImage icon = MessageBoxImage.Warning;
             MessageBoxResult result;
@@ -102,11 +102,12 @@ namespace shop.ViewModels
 
             if (result == MessageBoxResult.Yes)
             {
-
-                _EmployeeRepository.Remove(SelectedEmployee.Id);
+                var tmpepl = SelectedEmployee;
                 Employees.Remove(SelectedEmployee);
-                
-                SelectedEmployee = null;
+                SelectedDepartment.Employees.Remove(tmpepl);
+                _DepartmentsRepo.Update(SelectedDepartment);
+
+
             }
 
 
@@ -133,7 +134,14 @@ namespace shop.ViewModels
         {
             if (SelectedDepartment != null)
             {
-                Employees = new ObservableCollection<Employee>(SelectedDepartment.Employees);
+                try
+                {
+                    Employees = new ObservableCollection<Employee>(SelectedDepartment.Employees);
+                }
+                catch
+                {
+                    Employees = null;
+                }
             }
             else
             {
@@ -227,8 +235,34 @@ namespace shop.ViewModels
 
         private void OnDepartmentAddCommandExecuted(object p)
         {
-            
-            
+
+            var tmpdep = new Department();
+
+
+            if (tmpdep == null) return;
+            if (_UserDialog.Edit(0, tmpdep, _EmployeeRepository, _UserDialog))
+            {
+
+                // Сохранить  в БД
+
+                _DepartmentsRepo.Add(tmpdep);
+
+                // Обновить состояние интерфейса
+
+                Departments.Add(tmpdep);
+
+
+                SelectedDepartment = tmpdep;
+                
+
+
+
+            }
+            else
+            {
+                // Ничего не делаем
+
+            }
 
 
 
@@ -320,9 +354,17 @@ namespace shop.ViewModels
             {
 
                 // Сохранить employee в БД
+                if (SelectedDepartment.Employees == null)
+                {
+                    SelectedDepartment.Employees = new HashSet<Employee>();
+                }
                 SelectedDepartment.Employees.Add(selectedEmpl[0]);
                 _DepartmentsRepo.Update(SelectedDepartment);
 
+                if(Employees==null)
+                {
+                    Employees = new();
+                }
                 Employees.Add(selectedEmpl[0]);
                 // Обновить состояние интерфейса
                 //Employees = new ObservableCollection<Employee>(SelectedDepartment.Employees);
