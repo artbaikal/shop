@@ -220,7 +220,7 @@ namespace shop.ViewModels
             ??= new LambdaCommand(OnDepartmentAddCommandExecuted, CanDepartmentAddCommandExecute);
 
         
-        private bool CanDepartmentAddCommandExecute(object p) => SelectedDepartment != null;
+        private bool CanDepartmentAddCommandExecute(object p) => true;
 
 
 
@@ -254,15 +254,36 @@ namespace shop.ViewModels
         private void OnDepartmentEditCommandExecuted(object p)
         {
 
-            
+
             //public EditDepartmentViewModel(int mode, Department dep, IRepository<Employee> EmployeeRepository, IUserDialog UserDialog)
 
-            if (_UserDialog.Edit(1, SelectedDepartment,_EmployeeRepository,_UserDialog ))
-            {
+            var tmpdep = _DepartmentsRepo.Items.Where(x => x.Id == SelectedDepartment.Id).FirstOrDefault();
 
-                // Сохранить employee в БД
-                
+
+            if (tmpdep == null) return;
+            if (_UserDialog.Edit(1, tmpdep, _EmployeeRepository,_UserDialog ))
+            {
+                SelectedDepartment.Head = tmpdep.Head;
+                SelectedDepartment.Name = tmpdep.Name;
+
+                // Сохранить  в БД
+
+
+                _DepartmentsRepo.Update(SelectedDepartment);
+
                 // Обновить состояние интерфейса
+                OnPropertyChanged("SelectedDepartment");
+                var tmpempl = SelectedEmployee;
+                var tdep = SelectedDepartment;
+                var deps = Departments;
+
+                Departments = null;
+                Departments = deps;
+
+                SelectedDepartment = tdep;
+                SelectedEmployee = tmpempl;
+
+
 
             }
             else

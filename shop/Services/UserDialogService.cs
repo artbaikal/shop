@@ -70,7 +70,7 @@ namespace shop.Services
         {
             //public EditDepartmentViewModel(int mode, Department dep, IRepository<Employee> EmployeeRepository, IUserDialog UserDialog)
             var view_model = new EditDepartmentViewModel(mode, dep, EmployeeRepository, UserDialog);
-            var view = new EditDepartmentViewModel
+            var view = new EditDepartmenWindow
             {
                 DataContext = view_model,
                 Owner = App.CurrentWindow,

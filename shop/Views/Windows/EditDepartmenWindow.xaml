@@ -54,12 +54,12 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Column="0" Grid.Row="0" Text="Наименование:"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Department.Name}"/>
 
            
 
             <TextBlock Grid.Column="0" Grid.Row="2" Text="Начальник:"/>
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding HeadEmpl}"/>
+            <TextBox IsReadOnly="True" Grid.Column="1" Grid.Row="2" Text="{Binding HeadEmplName}"/>
             <Button Width="40" Height="20"  Grid.Column="3" Grid.Row="2" Content="..." Command="{Binding SelectHeadEmplCommand}"></Button>
 
             

@@ -35,9 +35,11 @@ namespace shop.ViewModels
 
 
         private Employee _HeadEmpl;
+        private string _HeadEmplName;
 
 
         public Employee HeadEmpl { get => _HeadEmpl; set => Set(ref _HeadEmpl, value); }
+        public string HeadEmplName { get => _HeadEmplName; set => Set(ref _HeadEmplName, value); }
 
 
 
@@ -78,6 +80,8 @@ namespace shop.ViewModels
 
                 // Зафиксировать выбор
                 HeadEmpl = selectedEmpl[0];
+                Department.Head= selectedEmpl[0];
+                HeadEmplName = HeadEmpl.ToString();
 
             }
             else
@@ -142,8 +146,8 @@ namespace shop.ViewModels
             {
                 _Title = "Добавление нового подразделения";
             }
-
-
+            _HeadEmpl = dep?.Head;
+            _HeadEmplName = _HeadEmpl.ToString();
         }
         public EditDepartmentViewModel()
         {

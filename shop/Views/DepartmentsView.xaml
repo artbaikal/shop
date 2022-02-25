@@ -50,7 +50,7 @@
             
             <DockPanel>
                 <TextBlock DockPanel.Dock="Top">
-                    Начальник подразделения: <TextBlock Text="{Binding SelectedDepartment}"/>
+                    Начальник подразделения: <TextBlock Text="{Binding SelectedDepartment.Head}"/>
                 </TextBlock>
                 <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Right" Margin="5">
                     <UniformGrid.Resources>
