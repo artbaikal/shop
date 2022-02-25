@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DBAcess.Migrations
 {
     [DbContext(typeof(ShopDb))]
-    [Migration("20220225113003_init")]
+    [Migration("20220225124646_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,9 @@ namespace DBAcess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HeadID");
+                    b.HasIndex("HeadID")
+                        .IsUnique()
+                        .HasFilter("[HeadID] IS NOT NULL");
 
                     b.ToTable("Departments");
                 });
@@ -101,8 +103,9 @@ namespace DBAcess.Migrations
             modelBuilder.Entity("DBAcess.Entityes.Department", b =>
                 {
                     b.HasOne("DBAcess.Entityes.Employee", "Head")
-                        .WithMany()
-                        .HasForeignKey("HeadID");
+                        .WithOne("HeadedDepartment")
+                        .HasForeignKey("DBAcess.Entityes.Department", "HeadID")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Head");
                 });
@@ -111,7 +114,8 @@ namespace DBAcess.Migrations
                 {
                     b.HasOne("DBAcess.Entityes.Department", "Department")
                         .WithMany("Employees")
-                        .HasForeignKey("DepartmentID");
+                        .HasForeignKey("DepartmentID")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Department");
                 });
@@ -128,6 +132,11 @@ namespace DBAcess.Migrations
             modelBuilder.Entity("DBAcess.Entityes.Department", b =>
                 {
                     b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("DBAcess.Entityes.Employee", b =>
+                {
+                    b.Navigation("HeadedDepartment");
                 });
 #pragma warning restore 612, 618
         }

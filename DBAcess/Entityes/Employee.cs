@@ -17,8 +17,10 @@ namespace DBAcess.Entityes
         public int? DepartmentID { get; set; }
         public Department Department { get; set; }
 
-        //public List<Department> Courses { get; set; } = new List<Department>();
-        //public ICollection<Department> Departments { get; set; }
+
+        public Department HeadedDepartment { get; set; }
+
+  
 
 
 

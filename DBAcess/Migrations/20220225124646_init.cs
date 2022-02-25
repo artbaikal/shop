@@ -42,7 +42,7 @@ namespace DBAcess.Migrations
                         column: x => x.HeadID,
                         principalTable: "Employees",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,7 +69,9 @@ namespace DBAcess.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Departments_HeadID",
                 table: "Departments",
-                column: "HeadID");
+                column: "HeadID",
+                unique: true,
+                filter: "[HeadID] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_DepartmentID",
@@ -87,7 +89,7 @@ namespace DBAcess.Migrations
                 column: "DepartmentID",
                 principalTable: "Departments",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.SetNull);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

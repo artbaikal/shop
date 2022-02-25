@@ -76,7 +76,7 @@ namespace shop.ViewModels
 
 
 
-            //var employees = EmployeeRepository.Items.Take(1).ToArray();
+            //var employees = EmployeeRepository.Items.ToArray();
 
             //var departments = DepartmentRepository.Items.Take(10).ToArray();
             //var orders = OrderRepository.Items.Take(10).ToArray();

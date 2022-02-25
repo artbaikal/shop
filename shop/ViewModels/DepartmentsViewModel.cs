@@ -119,7 +119,6 @@ namespace shop.ViewModels
         {
             Employees = new ObservableCollection<Employee>(SelectedDepartment.Employees);
 
-            Employees = new ObservableCollection<Employee>(_EmployeeRepository.Items.ToArray());
 
         }
 
