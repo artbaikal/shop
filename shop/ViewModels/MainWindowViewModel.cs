@@ -63,6 +63,30 @@ namespace shop.ViewModels
 
         #endregion
 
+        #region Command ShowEmployeesViewCommand - Отобразить представление подразделений
+
+        /// <summary>Отобразить представление книг</summary>
+        private ICommand _ShowEmployeesViewCommand;
+
+        /// <summary>Отобразить представление книг</summary>
+        public ICommand ShowEmployeesViewCommand => _ShowEmployeesViewCommand
+            ??= new LambdaCommand(OnShowEmployeesViewCommandExecuted, CanShowEmployeesViewCommandExecute);
+
+        /// <summary>Проверка возможности выполнения - Отобразить представление книг</summary>
+        private bool CanShowEmployeesViewCommandExecute() => true;
+
+        /// <summary>Логика выполнения - Отобразить представление книг</summary>
+        private void OnShowEmployeesViewCommandExecuted()
+        {
+            if (CurrentModel is EmployeesViewModel)
+            {
+                return;
+            }
+            CurrentModel = new EmployeesViewModel(_EmployeeRepository,  _UserDialog);
+        }
+
+        #endregion
+
         public MainWindowViewModel(IRepository<Employee> EmployeeRepository,
             IRepository<Department> DepartmentRepository,
             IRepository<Order> OrderRepository,
