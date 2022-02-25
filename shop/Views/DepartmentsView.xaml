@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="shop.Views.DepartmentsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:l="clr-namespace:shop.Views"
+             
+             xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:vm="clr-namespace:shop.ViewModels"
+             d:DataContext="{d:DesignInstance {x:Type vm:DepartmentsViewModel}}"
+             d:DesignWidth="800" d:DesignHeight="450">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="160"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Column="0" Header="Подразделения">
+            <DockPanel>
+                <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="3,9">
+                    <UniformGrid.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Margin" Value="1,0"/>
+                            <!--<Setter Property="Padding" Value="25,5"/>-->
+                        </Style>
+                    </UniformGrid.Resources>
+                    <Button Content="+"/>
+                    <Button Content="E"/>
+                    <Button Content="-"/>
+                </UniformGrid>
+                <ListBox ItemsSource="{Binding Departments}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDepartment}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding NewDepartmentSelectedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListBox>
+
+
+            </DockPanel>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="">
+            
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top">
+                    Начальник подразделения: <TextBlock Text="{Binding SelectedDepartment}"/>
+                </TextBlock>
+                <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Right" Margin="5">
+                    <UniformGrid.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Margin" Value="3,0"/>
+                            <Setter Property="Padding" Value="25,5"/>
+                        </Style>
+                    </UniformGrid.Resources>
+                    <Button Content="Добавить" Command="{Binding AddEmployeeCommand}"/>
+                    <!--<Button Content="Редактировать" Command="{Binding EditEmployeeCommand}" CommandParameter="{Binding SelectedEmployee}"/>-->
+                    <Button Content="Удалить" Command="{Binding RemoveEmployeeCommand}" CommandParameter="{Binding SelectedEmployee}"/>
+                </UniformGrid>
+                <GroupBox Header="Сотрудники">
+                    <DataGrid ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn MinWidth="100" Width="*" Header="Фамилия" Binding="{Binding Surname}"/>
+                            <DataGridTextColumn MinWidth="100" Width="*" Header="Имя" Binding="{Binding Name}"/>
+                            <DataGridTextColumn MinWidth="100" Width="*" Header="Отчество" Binding="{Binding Patronymic}"/>
+                            <DataGridTextColumn MinWidth="100" Width="*" Header="Дата рождения" Binding="{Binding Birthday, StringFormat={}{0:d}, ConverterCulture=ru-RU}"/>
+                            <DataGridTextColumn MinWidth="100" Width="*" Header="Пол" Binding="{Binding Sex,StringFormat={} }"/>
+                            
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                
+                </GroupBox>
+            </DockPanel>
+        </GroupBox>
+
+    </Grid>
+</UserControl>

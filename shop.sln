@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "shop", "shop\shop.csproj", "{46B880AC-0A14-43BB-B0BB-676F2A9AF5F2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBAcess", "DBAcess\DBAcess.csproj", "{7F774138-EB4E-415B-99C2-C1B34C22D930}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBInterfaces", "Interfaces\DBInterfaces.csproj", "{AD5CA564-061C-4629-888D-EE849690B24B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46B880AC-0A14-43BB-B0BB-676F2A9AF5F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46B880AC-0A14-43BB-B0BB-676F2A9AF5F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46B880AC-0A14-43BB-B0BB-676F2A9AF5F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46B880AC-0A14-43BB-B0BB-676F2A9AF5F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F774138-EB4E-415B-99C2-C1B34C22D930}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F774138-EB4E-415B-99C2-C1B34C22D930}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F774138-EB4E-415B-99C2-C1B34C22D930}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F774138-EB4E-415B-99C2-C1B34C22D930}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD5CA564-061C-4629-888D-EE849690B24B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD5CA564-061C-4629-888D-EE849690B24B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD5CA564-061C-4629-888D-EE849690B24B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD5CA564-061C-4629-888D-EE849690B24B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7E50190C-5ACC-436F-807B-8528497F3683}
+	EndGlobalSection
+EndGlobal
