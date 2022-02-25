@@ -1,6 +1,7 @@
 ﻿
 
 using DBAcess.Entityes;
+using DBInterfaces;
 
 namespace shop.Services.Interfaces
 {
@@ -8,6 +9,8 @@ namespace shop.Services.Interfaces
     {
         bool Edit(Department dep);
         bool Edit(Employee empl);
+        
+        bool Edit(int mode, Department dep, IRepository<Employee> EmployeeRepository, IUserDialog UserDialog);
 
         bool Edit(Employee[] emlp, Employee[] selectedEmpl ) ;
 

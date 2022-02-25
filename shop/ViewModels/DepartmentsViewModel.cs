@@ -159,7 +159,8 @@ namespace shop.ViewModels
         private bool CanDepartmentDeleteCommandExecute(object p) => SelectedDepartment != null;
 
 
-        /// <summary>Логика выполнения - Удаление сотрудника</summary>
+        
+        
         private void OnDepartmentDeleteCommandExecuted(object p)
         {
             string messageBoxText = "Удалить выбранное подразделение? ";
@@ -209,6 +210,71 @@ namespace shop.ViewModels
 
         #endregion
 
+        #region Command DepartmentAdd
+
+        
+        private ICommand _DepartmentAddCommand;
+
+        
+        public ICommand DepartmentAddCommand => _DepartmentAddCommand
+            ??= new LambdaCommand(OnDepartmentAddCommandExecuted, CanDepartmentAddCommandExecute);
+
+        
+        private bool CanDepartmentAddCommandExecute(object p) => SelectedDepartment != null;
+
+
+
+
+        private void OnDepartmentAddCommandExecuted(object p)
+        {
+            
+            
+
+
+
+        }
+
+        #endregion
+
+        #region Command DepartmentEdit
+
+
+        private ICommand _DepartmentEditCommand;
+
+
+        public ICommand DepartmentEditCommand => _DepartmentEditCommand
+            ??= new LambdaCommand(OnDepartmentEditCommandExecuted, CanDepartmentEditCommandExecute);
+
+
+        private bool CanDepartmentEditCommandExecute(object p) => SelectedDepartment != null;
+
+
+
+
+        private void OnDepartmentEditCommandExecuted(object p)
+        {
+
+            
+            //public EditDepartmentViewModel(int mode, Department dep, IRepository<Employee> EmployeeRepository, IUserDialog UserDialog)
+
+            if (_UserDialog.Edit(1, SelectedDepartment,_EmployeeRepository,_UserDialog ))
+            {
+
+                // Сохранить employee в БД
+                
+                // Обновить состояние интерфейса
+
+            }
+            else
+            {
+                // Ничего не делаем
+
+            }
+
+
+        }
+
+        #endregion
 
         #region Command AddEmployeeCommand 
 
@@ -245,7 +311,7 @@ namespace shop.ViewModels
             else
             {
                 // Ничего не делаем
-                int gg = 1;
+                
             }
 
         }
@@ -259,6 +325,11 @@ namespace shop.ViewModels
             _EmployeeRepository = EmployeeRepository;
 
 
+
+        }
+
+        public DepartmentsViewModel()
+        {
 
         }
     }

@@ -1,4 +1,5 @@
 ﻿using DBAcess.Entityes;
+using DBInterfaces;
 using shop.Services.Interfaces;
 using shop.ViewModels;
 using shop.Views.Windows;
@@ -51,6 +52,25 @@ namespace shop.Services
             
             var view_model = new AddEmpToDepartmentViewModel(emlp,selectedEmpl);
             var view = new AddEmpToDepartment
+            {
+                DataContext = view_model,
+                Owner = App.CurrentWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+            view_model.Complete += (_, p) =>
+            {
+                view.DialogResult = p.Argument;
+                view.Close();
+            };
+
+            return view.ShowDialog() ?? false;
+        }
+
+        public bool Edit(int mode, Department dep, IRepository<Employee> EmployeeRepository, IUserDialog UserDialog)
+        {
+            //public EditDepartmentViewModel(int mode, Department dep, IRepository<Employee> EmployeeRepository, IUserDialog UserDialog)
+            var view_model = new EditDepartmentViewModel(mode, dep, EmployeeRepository, UserDialog);
+            var view = new EditDepartmentViewModel
             {
                 DataContext = view_model,
                 Owner = App.CurrentWindow,
