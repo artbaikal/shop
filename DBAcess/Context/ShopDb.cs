@@ -20,10 +20,16 @@ namespace DBAcess.Context
 
         }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    // использование Fluent API
-        //    base.OnModelCreating(modelBuilder);
-        //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // использование Fluent API
+            //modelBuilder.Entity<Department>.OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Department>()
+            .HasOptional(x => x.Manager)
+            .WithMany()
+            .HasForeignKey(x => x.ManagerID);
+
+            //base.OnModelCreating(modelBuilder);
+        }
     }
 }

@@ -8,19 +8,6 @@ namespace DBAcess.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Departments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Departments", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
@@ -30,6 +17,7 @@ namespace DBAcess.Migrations
                     Patronymic = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Sex = table.Column<int>(type: "int", nullable: false),
+                    DepartmentID = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -38,27 +26,23 @@ namespace DBAcess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DepartmentEmployee",
+                name: "Departments",
                 columns: table => new
                 {
-                    DepartmentsId = table.Column<int>(type: "int", nullable: false),
-                    EmployeesId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HeadID = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DepartmentEmployee", x => new { x.DepartmentsId, x.EmployeesId });
+                    table.PrimaryKey("PK_Departments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DepartmentEmployee_Departments_DepartmentsId",
-                        column: x => x.DepartmentsId,
-                        principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DepartmentEmployee_Employees_EmployeesId",
-                        column: x => x.EmployeesId,
+                        name: "FK_Departments_Employees_HeadID",
+                        column: x => x.HeadID,
                         principalTable: "Employees",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,29 +67,43 @@ namespace DBAcess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DepartmentEmployee_EmployeesId",
-                table: "DepartmentEmployee",
-                column: "EmployeesId");
+                name: "IX_Departments_HeadID",
+                table: "Departments",
+                column: "HeadID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_DepartmentID",
+                table: "Employees",
+                column: "DepartmentID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_EmployeeId",
                 table: "Orders",
                 column: "EmployeeId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Employees_Departments_DepartmentID",
+                table: "Employees",
+                column: "DepartmentID",
+                principalTable: "Departments",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "DepartmentEmployee");
+            migrationBuilder.DropForeignKey(
+                name: "FK_Departments_Employees_HeadID",
+                table: "Departments");
 
             migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Departments");
+                name: "Employees");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "Departments");
         }
     }
 }

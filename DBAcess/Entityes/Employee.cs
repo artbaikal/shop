@@ -14,8 +14,12 @@ namespace DBAcess.Entityes
 
         public EnumSex Sex { get; set; }
 
+        public int? DepartmentID { get; set; }
+        public Department Department { get; set; }
+
         //public List<Department> Courses { get; set; } = new List<Department>();
-        public ICollection<Department> Departments { get; set; }
+        //public ICollection<Department> Departments { get; set; }
+
 
 
         public override string ToString() => $"{Surname} {Name} {Patronymic}";
