@@ -6,15 +6,20 @@ namespace DBAcess.Entityes
 {
     public class Department : NamedEntity
     {
-      
+
+
+
         public ICollection<Employee> Employees { get; set; }
         
-        [NotMapped]
+  
+        public int? HeadID { get; set; }
+
         public Employee Head { get; set; }
 
-        //public List<Employee> Students { get; set; } = new List<Employee>();
-
+        public override string ToString() => $"{Name} (id={Id})";
     }
 
-    
+
+
+
 }

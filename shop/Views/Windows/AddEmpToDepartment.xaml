@@ -8,7 +8,7 @@
 
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:AddEmpToDepartmentViewModel, IsDesignTimeCreatable=True}"
-        Title="Добавление сотрудника в подразделение" Height="450" Width="800">
+        Title="Форма выбора сотрудника" Height="350" Width="700">
     
     <Grid>
         <DockPanel>
@@ -23,11 +23,11 @@
                     </Style>
                 </UniformGrid.Resources>
 
-                
 
-                <Button  Content="Добавить" Command="{Binding AddEmployeeCommand}"  />
-                
-                <Button   Content="Отмена" Command="{Binding RemoveEmployeeCommand}" CommandParameter="{Binding SelectedEmployee}" />
+
+                <Button  Content="Выбрать" Command="{Binding CommitCommand}"  />
+
+                <Button   Content="Отмена" Command="{Binding CancelCommand}"  />
              
             </UniformGrid>
 
@@ -37,7 +37,8 @@
 
             <DataGrid ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}">
             <DataGrid.Columns>
-                <DataGridTextColumn MinWidth="100" Width="*" Header="Фамилия" Binding="{Binding Surname}"/>
+                    <DataGridTextColumn MinWidth="100" Width="*" Header="Id" Binding="{Binding Id}"/>
+                    <DataGridTextColumn MinWidth="100" Width="*" Header="Фамилия" Binding="{Binding Surname}"/>
                 <DataGridTextColumn MinWidth="100" Width="*" Header="Имя" Binding="{Binding Name}"/>
                 <DataGridTextColumn MinWidth="100" Width="*" Header="Отчество" Binding="{Binding Patronymic}"/>
                 <DataGridTextColumn MinWidth="100" Width="*" Header="Дата рождения" Binding="{Binding Birthday, StringFormat={}{0:d}, ConverterCulture=ru-RU}"/>

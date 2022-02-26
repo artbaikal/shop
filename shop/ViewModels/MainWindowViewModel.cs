@@ -63,6 +63,54 @@ namespace shop.ViewModels
 
         #endregion
 
+        #region Command ShowEmployeesViewCommand - Отобразить представление подразделений
+
+        /// <summary>Отобразить представление книг</summary>
+        private ICommand _ShowEmployeesViewCommand;
+
+        /// <summary>Отобразить представление книг</summary>
+        public ICommand ShowEmployeesViewCommand => _ShowEmployeesViewCommand
+            ??= new LambdaCommand(OnShowEmployeesViewCommandExecuted, CanShowEmployeesViewCommandExecute);
+
+        /// <summary>Проверка возможности выполнения - Отобразить представление книг</summary>
+        private bool CanShowEmployeesViewCommandExecute() => true;
+
+        /// <summary>Логика выполнения - Отобразить представление книг</summary>
+        private void OnShowEmployeesViewCommandExecuted()
+        {
+            if (CurrentModel is EmployeesViewModel)
+            {
+                return;
+            }
+            CurrentModel = new EmployeesViewModel(_EmployeeRepository,  _UserDialog);
+        }
+
+        #endregion
+
+        #region Command ShowOrdersViewCommand - Отобразить представление подразделений
+
+        /// <summary>Отобразить представление книг</summary>
+        private ICommand _ShowOrdersViewCommand;
+
+        /// <summary>Отобразить представление книг</summary>
+        public ICommand ShowOrdersViewCommand => _ShowOrdersViewCommand
+            ??= new LambdaCommand(OnShowOrdersViewCommandExecuted, CanShowOrdersViewCommandExecute);
+
+        /// <summary>Проверка возможности выполнения - Отобразить представление книг</summary>
+        private bool CanShowOrdersViewCommandExecute() => true;
+
+        /// <summary>Логика выполнения - Отобразить представление книг</summary>
+        private void OnShowOrdersViewCommandExecuted()
+        {
+            if (CurrentModel is OrdersViewModel)
+            {
+                return;
+            }
+            CurrentModel = new OrdersViewModel(_EmployeeRepository, _OrderRepository,_UserDialog);
+        }
+
+        #endregion
+
         public MainWindowViewModel(IRepository<Employee> EmployeeRepository,
             IRepository<Department> DepartmentRepository,
             IRepository<Order> OrderRepository,
@@ -76,7 +124,7 @@ namespace shop.ViewModels
 
 
 
-            //var employees = EmployeeRepository.Items.Take(1).ToArray();
+            //var employees = EmployeeRepository.Items.ToArray();
 
             //var departments = DepartmentRepository.Items.Take(10).ToArray();
             //var orders = OrderRepository.Items.Take(10).ToArray();

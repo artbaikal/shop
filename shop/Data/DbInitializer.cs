@@ -83,7 +83,7 @@ namespace shop.Data
                 {
                     Name = $"Подразделение {i + 1}",
                     Head = _Employees[i],
-                    //Employees=empl
+//                    Employees = empl
                 };
 
             }

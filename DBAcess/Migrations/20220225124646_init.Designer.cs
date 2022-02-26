@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DBAcess.Migrations
 {
     [DbContext(typeof(ShopDb))]
-    [Migration("20220225092217_init")]
+    [Migration("20220225124646_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,11 +28,18 @@ namespace DBAcess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("HeadID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HeadID")
+                        .IsUnique()
+                        .HasFilter("[HeadID] IS NOT NULL");
 
                     b.ToTable("Departments");
                 });
@@ -46,6 +53,9 @@ namespace DBAcess.Migrations
 
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("DepartmentID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -61,6 +71,8 @@ namespace DBAcess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentID");
 
                     b.ToTable("Employees");
                 });
@@ -88,19 +100,24 @@ namespace DBAcess.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("DepartmentEmployee", b =>
+            modelBuilder.Entity("DBAcess.Entityes.Department", b =>
                 {
-                    b.Property<int>("DepartmentsId")
-                        .HasColumnType("int");
+                    b.HasOne("DBAcess.Entityes.Employee", "Head")
+                        .WithOne("HeadedDepartment")
+                        .HasForeignKey("DBAcess.Entityes.Department", "HeadID")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.Property<int>("EmployeesId")
-                        .HasColumnType("int");
+                    b.Navigation("Head");
+                });
 
-                    b.HasKey("DepartmentsId", "EmployeesId");
+            modelBuilder.Entity("DBAcess.Entityes.Employee", b =>
+                {
+                    b.HasOne("DBAcess.Entityes.Department", "Department")
+                        .WithMany("Employees")
+                        .HasForeignKey("DepartmentID")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasIndex("EmployeesId");
-
-                    b.ToTable("DepartmentEmployee");
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("DBAcess.Entityes.Order", b =>
@@ -112,19 +129,14 @@ namespace DBAcess.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("DepartmentEmployee", b =>
+            modelBuilder.Entity("DBAcess.Entityes.Department", b =>
                 {
-                    b.HasOne("DBAcess.Entityes.Department", null)
-                        .WithMany()
-                        .HasForeignKey("DepartmentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Employees");
+                });
 
-                    b.HasOne("DBAcess.Entityes.Employee", null)
-                        .WithMany()
-                        .HasForeignKey("EmployeesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("DBAcess.Entityes.Employee", b =>
+                {
+                    b.Navigation("HeadedDepartment");
                 });
 #pragma warning restore 612, 618
         }

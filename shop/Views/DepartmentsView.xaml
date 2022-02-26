@@ -31,11 +31,11 @@
                             <!--<Setter Property="Padding" Value="25,5"/>-->
                         </Style>
                     </UniformGrid.Resources>
-                    <Button Content="+"/>
-                    <Button Content="E"/>
-                    <Button Content="-"/>
+                    <Button Content="Add" Command="{Binding DepartmentAddCommand}"/>
+                    <Button Content="Edit" Command="{Binding DepartmentEditCommand}" />
+                    <Button Content="Del" Command="{Binding DepartmentDeleteCommand}" />
                 </UniformGrid>
-                <ListBox ItemsSource="{Binding Departments}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDepartment}">
+                <ListBox ItemsSource="{Binding Departments}"  SelectedItem="{Binding SelectedDepartment}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding NewDepartmentSelectedCommand}"/>
@@ -50,7 +50,7 @@
             
             <DockPanel>
                 <TextBlock DockPanel.Dock="Top">
-                    Начальник подразделения: <TextBlock Text="{Binding SelectedDepartment}"/>
+                    Начальник подразделения: <TextBlock Text="{Binding SelectedDepartment.Head}"/>
                 </TextBlock>
                 <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Right" Margin="5">
                     <UniformGrid.Resources>
@@ -67,6 +67,7 @@
                 <GroupBox Header="Сотрудники">
                     <DataGrid ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}">
                         <DataGrid.Columns>
+                            <DataGridTextColumn MinWidth="100" Width="*" Header="Id" Binding="{Binding Id}"/>
                             <DataGridTextColumn MinWidth="100" Width="*" Header="Фамилия" Binding="{Binding Surname}"/>
                             <DataGridTextColumn MinWidth="100" Width="*" Header="Имя" Binding="{Binding Name}"/>
                             <DataGridTextColumn MinWidth="100" Width="*" Header="Отчество" Binding="{Binding Patronymic}"/>

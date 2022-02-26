@@ -4,14 +4,16 @@ using DBAcess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DBAcess.Migrations
 {
     [DbContext(typeof(ShopDb))]
-    partial class ShopDbModelSnapshot : ModelSnapshot
+    [Migration("20220225125138_init2")]
+    partial class init2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,7 +84,7 @@ namespace DBAcess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("EmployeeID")
+                    b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<int>("Number")
@@ -93,7 +95,7 @@ namespace DBAcess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeID");
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("Orders");
                 });
@@ -122,9 +124,7 @@ namespace DBAcess.Migrations
                 {
                     b.HasOne("DBAcess.Entityes.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeId");
 
                     b.Navigation("Employee");
                 });
