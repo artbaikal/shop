@@ -4,11 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:shop.Views.Windows"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
         xmlns:vm="clr-namespace:shop.ViewModels"
 
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance vm:EditOrderViewModel, IsDesignTimeCreatable=True}"
-        Title="{Binding Title}" Height="340" Width="400">
+        d:DataContext="{d:DesignInstance vm:EditOrdersViewModel, IsDesignTimeCreatable=True}"
+        Title="{Binding Title}" Height="240" Width="400">
     <DockPanel Margin="0,0,0,0">
         <StackPanel DockPanel.Dock="Top" Margin="5">
             <!--<TextBlock Text="" FontSize="26"/>
@@ -44,33 +46,29 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+
 
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Фамилия:"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Employee.Surname}"/>
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Номер:"/>
+            <TextBox   Grid.Column="1" Grid.Row="0" Text="{Binding orderNumber}">
 
-            <TextBlock Grid.Column="0" Grid.Row="1" Text="Имя:"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Employee.Name}"/>
+            </TextBox>
 
-            <TextBlock Grid.Column="0" Grid.Row="2" Text="Отчество:"/>
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Employee.Patronymic}"/>
+            <TextBlock Grid.Column="0" Grid.Row="1" Text="Товар:"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Order.Product}"/>
 
-            <TextBlock Grid.Column="0" Grid.Row="3" Text="Дата рождения:"/>
-            <DatePicker Grid.Column="1" Grid.Row="3" SelectedDate="{Binding Employee.Birthday}" Margin="0,3"/>
+            <TextBlock Grid.Column="0" Grid.Row="2" Text="Сотрудник:"/>
+            <TextBox IsReadOnly="True" Grid.Column="1" Grid.Row="2" Text="{Binding EmplName}"/>
+            <Button Width="40" Height="20"  Grid.Column="3" Grid.Row="2" Content="..." Command="{Binding SelectEmplCommand}"></Button>
 
-            <TextBlock Grid.Column="0" Grid.Row="4" Text="Пол:"/>
-            <ComboBox Grid.Column="1" Grid.Row="4" 
-                      SelectedItem="{Binding SexEmumItem}" 
-                      ItemsSource="{Binding SexEmumAll}"
-                      DisplayMemberPath="name" />
+            
 
 
 

@@ -5,6 +5,7 @@ using MathCore.WPF.ViewModels;
 using shop.Services.Interfaces;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -31,7 +32,14 @@ namespace shop.ViewModels
         private Order _Order;
         public Order Order { get => _Order; set => Set(ref _Order, value); }
 
+        private Employee _Empl;
+        private string _EmplName;
 
+        private string _orderNumber;
+        public string orderNumber { get => _orderNumber; set => Set(ref _orderNumber, value); }
+
+        public Employee Empl { get => _Empl; set => Set(ref _Empl, value); }
+        public string EmplName { get => _EmplName; set => Set(ref _EmplName, value); }
 
         #region Command CommitCommand
 
@@ -55,8 +63,18 @@ namespace shop.ViewModels
                 MessageBox.Show("Длина Имени должна быть больше 2 символов");
                 return;
             }
-
-
+            int tmp;
+            if(!Int32.TryParse(orderNumber, out tmp))
+            {
+                MessageBox.Show("Номер заказа не может быть преобразован в число");
+                return;
+            }
+            if(Order.Employee ==null)
+            {
+                MessageBox.Show("Не выбран сотрудник");
+                return;
+            }
+            Order.Number = tmp;
 
             Complete?.Invoke(this, true);
         }
@@ -84,12 +102,51 @@ namespace shop.ViewModels
 
         #endregion
 
+
+        #region Command SelectEmplCommand
+
+
+        private ICommand _SelectEmplCommand;
+
+
+        public ICommand SelectEmplCommand => _SelectEmplCommand
+            ??= new LambdaCommand(OnSelectEmplCommandExecuted, CanSelectEmplCommandExecute);
+
+
+        private bool CanSelectEmplCommandExecute(object p) => true;
+
+
+        private void OnSelectEmplCommandExecuted(object p)
+        {
+
+
+            var allEmpls = _EmployeeRepository.Items.ToArray();
+            var selectedEmpl = new Employee[1];
+            if (_UserDialog.Edit(allEmpls, selectedEmpl))
+            {
+
+                // Зафиксировать выбор
+                Empl = selectedEmpl[0];
+                Order.Employee = selectedEmpl[0];
+                EmplName = Empl.ToString();
+
+            }
+            else
+            {
+                // Ничего не делаем
+
+            }
+
+        }
+
+        #endregion
+
         public EditOrdersViewModel(int mode, Order order, IRepository<Employee> EmployeeRepository, IUserDialog UserDialog)
         {
 
             _EmployeeRepository = EmployeeRepository;
 
-              _UserDialog = UserDialog;
+            _UserDialog = UserDialog;
             if (mode == 0)
             {
                 _Title = "Добавление нового заказа";
@@ -97,6 +154,10 @@ namespace shop.ViewModels
             }
 
             _Order = order;
+            _Empl = order?.Employee;
+            _EmplName = _Empl?.ToString();
+
+            _orderNumber = order.Number.ToString();
         }
         public EditOrdersViewModel()
         {

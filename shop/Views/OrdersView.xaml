@@ -38,7 +38,7 @@
                         <DataGridTextColumn MinWidth="100" Width="*" Header="Id" Binding="{Binding Id}"/>
                         <DataGridTextColumn MinWidth="100" Width="*" Header="Номер" Binding="{Binding Number}"/>
                         <DataGridTextColumn MinWidth="100" Width="*" Header="Товар" Binding="{Binding Product}"/>
-                        <DataGridTextColumn MinWidth="100" Width="*" Header="Сотрудник" Binding="{Binding Order}"/>
+                        <DataGridTextColumn MinWidth="100" Width="*" Header="Сотрудник" Binding="{Binding Employee}"/>
 
                     </DataGrid.Columns>
                 </DataGrid>
